@@ -1,0 +1,2 @@
+This project expects gradle/wrapper/gradle-wrapper.jar to be present when building in CI.
+If absent, CI should install Gradle directly and run via 'gradle' binary.
