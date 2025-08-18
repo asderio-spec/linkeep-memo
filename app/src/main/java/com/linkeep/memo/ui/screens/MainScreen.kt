@@ -2,6 +2,7 @@
 
 package com.linkeep.memo.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +22,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.linkeep.memo.data.model.Memo
 import com.linkeep.memo.ui.components.AddMemoDialog
 import com.linkeep.memo.ui.viewmodels.MemoViewModel
+import com.linkeep.memo.ui.viewmodels.SettingsViewModel
+import com.linkeep.memo.data.ViewMode
 import coil.compose.AsyncImage
 import androidx.compose.ui.layout.ContentScale
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,6 +40,9 @@ fun MainScreen(
     val selectedCategory by viewModel.selectedCategory.collectAsState()
     var showAddDialog by remember { mutableStateOf(false) }
     var showSearchBar by remember { mutableStateOf(false) }
+
+    val settingsVm: SettingsViewModel = hiltViewModel()
+    val viewMode by settingsVm.viewMode.collectAsState()
 
     Scaffold(
         topBar = {
@@ -62,10 +68,12 @@ fun MainScreen(
                         IconButton(onClick = { showSearchBar = true }) {
                             Icon(Icons.Default.Search, contentDescription = "Search")
                         }
-                        var cardView by remember { mutableStateOf(true) }
-                        IconButton(onClick = { cardView = !cardView }) {
+                        IconButton(onClick = {
+                            val next = if (viewMode == ViewMode.CARD) ViewMode.LIST else ViewMode.CARD
+                            settingsVm.setViewMode(next)
+                        }) {
                             Icon(
-                                if (cardView) Icons.Default.ViewList else Icons.Default.GridView,
+                                if (viewMode == ViewMode.CARD) Icons.Default.ViewList else Icons.Default.GridView,
                                 contentDescription = "Toggle View"
                             )
                         }
@@ -111,11 +119,19 @@ fun MainScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                     items(memos) { memo ->
-                        MemoItem(
-                            memo = memo,
-                            onEdit = { updated -> viewModel.updateMemo(updated) },
-                            onClick = { onOpen(memo.id) }
-                        )
+                        if (viewMode == ViewMode.CARD) {
+                            MemoItem(
+                                memo = memo,
+                                onEdit = { updated -> viewModel.updateMemo(updated) },
+                                onClick = { onOpen(memo.id) }
+                            )
+                        } else {
+                            MemoItemList(
+                                memo = memo,
+                                onEdit = { updated -> viewModel.updateMemo(updated) },
+                                onClick = { onOpen(memo.id) }
+                            )
+                        }
                     }
                 }
             }
@@ -160,7 +176,7 @@ private fun CategoryRow(
 @Composable
 fun MemoItem(memo: Memo, onEdit: (Memo) -> Unit = {}, onClick: () -> Unit = {}) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
@@ -214,3 +230,35 @@ fun MemoItem(memo: Memo, onEdit: (Memo) -> Unit = {}, onClick: () -> Unit = {}) 
         }
     }
 } 
+
+@Composable
+fun MemoItemList(memo: Memo, onEdit: (Memo) -> Unit = {}, onClick: () -> Unit = {}) {
+    Card(
+        modifier = Modifier.fillMaxWidth().clickable { onClick() },
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp)) {
+            if (!memo.thumbnailUrl.isNullOrBlank()) {
+                AsyncImage(
+                    model = memo.thumbnailUrl,
+                    contentDescription = null,
+                    modifier = Modifier.size(56.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(Modifier.width(12.dp))
+            }
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = memo.title, style = MaterialTheme.typography.titleMedium)
+                Spacer(Modifier.height(4.dp))
+                Text(text = memo.content, style = MaterialTheme.typography.bodySmall, maxLines = 2)
+            }
+            TextButton(onClick = { onEdit(memo.copy(title = memo.title + " *")) }) {
+                Icon(Icons.Default.Edit, contentDescription = null)
+                Spacer(Modifier.width(4.dp))
+                Text("수정")
+            }
+        }
+    }
+}
