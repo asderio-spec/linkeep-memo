@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.res.stringResource
 import com.linkeep.memo.data.AIProvider
 import com.linkeep.memo.data.ThemeMode
 import com.linkeep.memo.data.ViewMode
