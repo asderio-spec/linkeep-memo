@@ -11,5 +11,6 @@ data class Memo(
     val content: String,
     val link: String? = null,
     val category: String,
+    val thumbnailUrl: String? = null,
     val createdAt: Long = System.currentTimeMillis()
 ) 

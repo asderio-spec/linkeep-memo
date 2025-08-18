@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -97,7 +98,10 @@ fun MainScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                     items(memos) { memo ->
-                        MemoItem(memo = memo)
+                        MemoItem(
+                            memo = memo,
+                            onEdit = { updated -> viewModel.updateMemo(updated) }
+                        )
                     }
                 }
             }
@@ -140,7 +144,7 @@ private fun CategoryRow(
 }
 
 @Composable
-fun MemoItem(memo: Memo) {
+fun MemoItem(memo: Memo, onEdit: (Memo) -> Unit = {}) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -173,6 +177,17 @@ fun MemoItem(memo: Memo) {
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.secondary
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+                TextButton(onClick = {
+                    // 간단한 인라인 수정(제목 뒤에 * 추가 예시). 실제로는 별도 Dialog를 권장
+                    onEdit(memo.copy(title = memo.title + " *"))
+                }) {
+                    Icon(Icons.Default.Edit, contentDescription = "Edit")
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("수정")
+                }
+            }
         }
     }
 } 

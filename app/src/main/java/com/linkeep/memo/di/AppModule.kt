@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.linkeep.memo.data.api.OpenAIService
 import com.linkeep.memo.data.db.MemoDatabase
 import com.linkeep.memo.data.db.MemoDao
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,11 +27,16 @@ object AppModule {
     fun provideMemoDatabase(
         @ApplicationContext context: Context
     ): MemoDatabase {
+        val migration1to2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE memos ADD COLUMN thumbnailUrl TEXT")
+            }
+        }
         return Room.databaseBuilder(
             context,
             MemoDatabase::class.java,
             "memo_database"
-        ).build()
+        ).addMigrations(migration1to2).build()
     }
 
     @Provides
