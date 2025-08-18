@@ -21,6 +21,7 @@ import com.linkeep.memo.ui.components.AddMemoDialog
 import com.linkeep.memo.ui.viewmodels.MemoViewModel
 import coil.compose.AsyncImage
 import androidx.compose.ui.layout.ContentScale
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
