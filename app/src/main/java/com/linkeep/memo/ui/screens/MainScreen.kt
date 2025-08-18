@@ -211,11 +211,7 @@ fun MemoItem(memo: Memo, onEdit: (Memo) -> Unit = {}, onClick: () -> Unit = {}) 
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = memo.category,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.secondary
-            )
+            AssistChip(onClick = {}, label = { Text(memo.category) })
             Spacer(modifier = Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                 TextButton(onClick = {
