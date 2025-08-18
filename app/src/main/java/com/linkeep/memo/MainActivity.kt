@@ -18,13 +18,25 @@ import androidx.navigation.compose.rememberNavController
 import com.linkeep.memo.ui.screens.MainScreen
 import com.linkeep.memo.ui.theme.MemoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.linkeep.memo.ui.viewmodels.SettingsViewModel
+import com.linkeep.memo.data.ThemeMode
+import androidx.compose.foundation.isSystemInDarkTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MemoTheme {
+            MemoTheme(darkTheme = run {
+                val settingsVm: SettingsViewModel = hiltViewModel()
+                val theme by settingsVm.themeMode.collectAsState()
+                when (theme) {
+                    ThemeMode.DARK -> true
+                    ThemeMode.LIGHT -> false
+                    else -> isSystemInDarkTheme()
+                }
+            }) {
                 val navController = rememberNavController()
                 var selectedTab by remember { mutableStateOf("home") }
 

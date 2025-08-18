@@ -46,7 +46,7 @@ class ShareReceiverActivity : ComponentActivity() {
             )
             memoRepository.insertMemo(memo)
             launch(Dispatchers.Main) {
-                Toast.makeText(this@ShareReceiverActivity, "Linkeep에 저장되었습니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ShareReceiverActivity, "저장 완료", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
