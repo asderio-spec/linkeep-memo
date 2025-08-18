@@ -63,10 +63,14 @@ class MainActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         NavHost(navController = navController, startDestination = "home") {
-                            composable("home") { MainScreen() }
+                            composable("home") { MainScreen(onOpen = { id -> navController.navigate("detail/$id") }) }
                             composable("category") { PlaceholderScreen("카테고리") }
                             composable("date") { PlaceholderScreen("날짜") }
-                            composable("settings") { PlaceholderScreen("설정") }
+                            composable("settings") { com.linkeep.memo.ui.screens.SettingsScreen() }
+                            composable("detail/{id}") { backStackEntry ->
+                                val id = backStackEntry.arguments?.getString("id")?.toLongOrNull() ?: 0L
+                                com.linkeep.memo.ui.screens.DetailScreen(memoId = id, onBack = { navController.popBackStack() })
+                            }
                         }
                     }
                 }

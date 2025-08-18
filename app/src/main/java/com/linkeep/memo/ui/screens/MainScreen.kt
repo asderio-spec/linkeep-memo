@@ -28,7 +28,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    viewModel: MemoViewModel = hiltViewModel()
+    viewModel: MemoViewModel = hiltViewModel(),
+    onOpen: (Long) -> Unit = {}
 ) {
     val memos by viewModel.filteredMemos.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
@@ -112,7 +113,8 @@ fun MainScreen(
                     items(memos) { memo ->
                         MemoItem(
                             memo = memo,
-                            onEdit = { updated -> viewModel.updateMemo(updated) }
+                            onEdit = { updated -> viewModel.updateMemo(updated) },
+                            onClick = { onOpen(memo.id) }
                         )
                     }
                 }
@@ -156,7 +158,7 @@ private fun CategoryRow(
 }
 
 @Composable
-fun MemoItem(memo: Memo, onEdit: (Memo) -> Unit = {}) {
+fun MemoItem(memo: Memo, onEdit: (Memo) -> Unit = {}, onClick: () -> Unit = {}) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
