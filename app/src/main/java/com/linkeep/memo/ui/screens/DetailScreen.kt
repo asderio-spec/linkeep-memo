@@ -13,8 +13,15 @@ import com.linkeep.memo.ui.viewmodels.MemoViewModel
 fun DetailScreen(memoId: Long, onBack: () -> Unit, vm: MemoViewModel = hiltViewModel()) {
     val memoList by vm.memos.collectAsState()
     val memo = memoList.find { it.id == memoId }
-    var title by remember { mutableStateOf(memo?.title ?: "") }
-    var content by remember { mutableStateOf(memo?.content ?: "") }
+    var title by remember { mutableStateOf("") }
+    var content by remember { mutableStateOf("") }
+
+    LaunchedEffect(memo?.id, memo?.title, memo?.content) {
+        memo?.let {
+            title = it.title
+            content = it.content
+        }
+    }
 
     Scaffold(topBar = {
         TopAppBar(

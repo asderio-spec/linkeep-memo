@@ -122,13 +122,11 @@ fun MainScreen(
                         if (viewMode == ViewMode.CARD) {
                             MemoItem(
                                 memo = memo,
-                                onEdit = { updated -> viewModel.updateMemo(updated) },
                                 onClick = { onOpen(memo.id) }
                             )
                         } else {
                             MemoItemList(
                                 memo = memo,
-                                onEdit = { updated -> viewModel.updateMemo(updated) },
                                 onClick = { onOpen(memo.id) }
                             )
                         }
@@ -174,7 +172,7 @@ private fun CategoryRow(
 }
 
 @Composable
-fun MemoItem(memo: Memo, onEdit: (Memo) -> Unit = {}, onClick: () -> Unit = {}) {
+fun MemoItem(memo: Memo, onClick: () -> Unit = {}) {
     Card(
         modifier = Modifier.fillMaxWidth().clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -213,22 +211,12 @@ fun MemoItem(memo: Memo, onEdit: (Memo) -> Unit = {}, onClick: () -> Unit = {}) 
             Spacer(modifier = Modifier.height(8.dp))
             AssistChip(onClick = {}, label = { Text(memo.category) })
             Spacer(modifier = Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
-                TextButton(onClick = {
-                    // 간단한 인라인 수정(제목 뒤에 * 추가 예시). 실제로는 별도 Dialog를 권장
-                    onEdit(memo.copy(title = memo.title + " *"))
-                }) {
-                    Icon(Icons.Default.Edit, contentDescription = "Edit")
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("수정")
-                }
-            }
         }
     }
 } 
 
 @Composable
-fun MemoItemList(memo: Memo, onEdit: (Memo) -> Unit = {}, onClick: () -> Unit = {}) {
+fun MemoItemList(memo: Memo, onClick: () -> Unit = {}) {
     Card(
         modifier = Modifier.fillMaxWidth().clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -250,11 +238,7 @@ fun MemoItemList(memo: Memo, onEdit: (Memo) -> Unit = {}, onClick: () -> Unit = 
                 Spacer(Modifier.height(4.dp))
                 Text(text = memo.content, style = MaterialTheme.typography.bodySmall, maxLines = 2)
             }
-            TextButton(onClick = { onEdit(memo.copy(title = memo.title + " *")) }) {
-                Icon(Icons.Default.Edit, contentDescription = null)
-                Spacer(Modifier.width(4.dp))
-                Text("수정")
-            }
+            // no inline edit button; open detail on click
         }
     }
 }

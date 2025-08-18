@@ -76,8 +76,8 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(navController = navController, startDestination = "home") {
                             composable("home") { MainScreen(onOpen = { id -> navController.navigate("detail/$id") }) }
-                            composable("category") { PlaceholderScreen("카테고리") }
-                            composable("date") { PlaceholderScreen("날짜") }
+                            composable("category") { com.linkeep.memo.ui.screens.CategoryScreen(onOpen = { id -> navController.navigate("detail/$id") }) }
+                            composable("date") { com.linkeep.memo.ui.screens.DateScreen(onOpen = { id -> navController.navigate("detail/$id") }) }
                             composable("settings") { com.linkeep.memo.ui.screens.SettingsScreen() }
                             composable("detail/{id}") { backStackEntry ->
                                 val id = backStackEntry.arguments?.getString("id")?.toLongOrNull() ?: 0L
