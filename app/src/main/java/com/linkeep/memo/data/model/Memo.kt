@@ -12,5 +12,9 @@ data class Memo(
     val link: String? = null,
     val category: String,
     val thumbnailUrl: String? = null,
-    val createdAt: Long = System.currentTimeMillis()
+    val aiSummary: String? = null,
+    val tagsCsv: String? = null,
+    val isArchived: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis(),
+    val updatedAt: Long = System.currentTimeMillis()
 ) 

@@ -19,6 +19,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.linkeep.memo.data.model.Memo
 import com.linkeep.memo.ui.components.AddMemoDialog
 import com.linkeep.memo.ui.viewmodels.MemoViewModel
+import coil.compose.AsyncImage
+import androidx.compose.ui.layout.ContentScale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -154,6 +156,15 @@ fun MemoItem(memo: Memo, onEdit: (Memo) -> Unit = {}) {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
+            if (!memo.thumbnailUrl.isNullOrBlank()) {
+                AsyncImage(
+                    model = memo.thumbnailUrl,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
             Text(
                 text = memo.title,
                 style = MaterialTheme.typography.titleMedium

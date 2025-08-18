@@ -32,11 +32,19 @@ object AppModule {
                 db.execSQL("ALTER TABLE memos ADD COLUMN thumbnailUrl TEXT")
             }
         }
+        val migration2to3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE memos ADD COLUMN aiSummary TEXT")
+                db.execSQL("ALTER TABLE memos ADD COLUMN tagsCsv TEXT")
+                db.execSQL("ALTER TABLE memos ADD COLUMN isArchived INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE memos ADD COLUMN updatedAt INTEGER NOT NULL DEFAULT 0")
+            }
+        }
         return Room.databaseBuilder(
             context,
             MemoDatabase::class.java,
             "memo_database"
-        ).addMigrations(migration1to2).build()
+        ).addMigrations(migration1to2, migration2to3).build()
     }
 
     @Provides
