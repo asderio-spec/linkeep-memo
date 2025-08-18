@@ -8,14 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.ui.res.stringResource
 import com.linkeep.memo.data.AIProvider
 import com.linkeep.memo.data.ThemeMode
 import com.linkeep.memo.data.ViewMode
 import com.linkeep.memo.ui.viewmodels.SettingsViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(vm: SettingsViewModel = hiltViewModel()) {
     val theme by vm.themeMode.collectAsState()

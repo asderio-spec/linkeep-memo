@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.linkeep.memo.ui.viewmodels.MemoViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(memoId: Long, onBack: () -> Unit, vm: MemoViewModel = hiltViewModel()) {
     val memoList by vm.memos.collectAsState()

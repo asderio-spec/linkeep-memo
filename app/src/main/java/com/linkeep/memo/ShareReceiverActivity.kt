@@ -4,8 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.platform.LocalContext
+ 
 import kotlinx.coroutines.delay
 import android.content.Intent
 import android.net.Uri
