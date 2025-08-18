@@ -1,6 +1,12 @@
 package com.linkeep.memo
 
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.delay
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -22,13 +28,20 @@ class ShareReceiverActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         when (intent?.action) {
-            Intent.ACTION_SEND -> handleSend(intent)
-            Intent.ACTION_SEND_MULTIPLE -> handleSend(intent)
+            Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
+                setContent {
+                    var message by remember { mutableStateOf("저장 중...") }
+                    Surface { com.linkeep.memo.ui.screens.ShareSavingSheet(message = message) { /* dismiss disabled */ } }
+                    LaunchedEffect(Unit) {
+                        handleSendWithFeedback(intent) { msg -> message = msg }
+                    }
+                }
+            }
             else -> finish()
         }
     }
 
-    private fun handleSend(intent: Intent) {
+    private suspend fun handleSendWithFeedback(intent: Intent, onMessage: (String) -> Unit) {
         val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
         val sharedStream: Uri? = intent.getParcelableExtra(Intent.EXTRA_STREAM)
 
@@ -46,7 +59,8 @@ class ShareReceiverActivity : ComponentActivity() {
             )
             memoRepository.insertMemo(memo)
             launch(Dispatchers.Main) {
-                Toast.makeText(this@ShareReceiverActivity, "저장 완료", Toast.LENGTH_SHORT).show()
+                onMessage("저장 완료")
+                delay(900)
                 finish()
             }
         }
