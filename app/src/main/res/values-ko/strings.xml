@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Linkeep Memo</string>
+    <string name="title_settings">설정</string>
+    <string name="title_detail">메모 상세</string>
+    <string name="action_save">저장</string>
+    <string name="action_back">뒤로</string>
+    <string name="label_theme">테마</string>
+    <string name="label_view_mode">보기 방식</string>
+    <string name="label_ai_provider">AI 제공자</string>
+    <string name="label_api_key">API 키</string>
+    <string name="theme_system">시스템</string>
+    <string name="theme_light">라이트</string>
+    <string name="theme_dark">다크</string>
+    <string name="view_card">카드</string>
+    <string name="view_list">리스트</string>
+    <string name="ai_local">로컬</string>
+    <string name="ai_openai">OpenAI</string>
+    <string name="ai_gemini">Gemini</string>
+    <string name="ai_claude">Claude</string>
+</resources>

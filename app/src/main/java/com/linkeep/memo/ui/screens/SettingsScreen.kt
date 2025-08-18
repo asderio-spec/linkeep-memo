@@ -22,31 +22,31 @@ fun SettingsScreen(vm: SettingsViewModel = hiltViewModel()) {
     val provider by vm.aiProvider.collectAsState()
     val apiKey by vm.aiApiKey.collectAsState()
 
-    Scaffold(topBar = { TopAppBar(title = { Text("설정") }) }) { padding ->
+    Scaffold(topBar = { TopAppBar(title = { Text(stringResource(id = com.linkeep.memo.R.string.title_settings)) }) }) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
-            Text("테마", style = MaterialTheme.typography.titleMedium)
-            AssistChip(onClick = { vm.setThemeMode(ThemeMode.SYSTEM) }, label = { Text("시스템") }, enabled = theme != ThemeMode.SYSTEM)
-            AssistChip(onClick = { vm.setThemeMode(ThemeMode.LIGHT) }, label = { Text("라이트") }, enabled = theme != ThemeMode.LIGHT)
-            AssistChip(onClick = { vm.setThemeMode(ThemeMode.DARK) }, label = { Text("다크") }, enabled = theme != ThemeMode.DARK)
+            Text(stringResource(id = com.linkeep.memo.R.string.label_theme), style = MaterialTheme.typography.titleMedium)
+            AssistChip(onClick = { vm.setThemeMode(ThemeMode.SYSTEM) }, label = { Text(stringResource(id = com.linkeep.memo.R.string.theme_system)) }, enabled = theme != ThemeMode.SYSTEM)
+            AssistChip(onClick = { vm.setThemeMode(ThemeMode.LIGHT) }, label = { Text(stringResource(id = com.linkeep.memo.R.string.theme_light)) }, enabled = theme != ThemeMode.LIGHT)
+            AssistChip(onClick = { vm.setThemeMode(ThemeMode.DARK) }, label = { Text(stringResource(id = com.linkeep.memo.R.string.theme_dark)) }, enabled = theme != ThemeMode.DARK)
 
             Divider(modifier = Modifier.padding(vertical = 12.dp))
 
-            Text("보기 방식", style = MaterialTheme.typography.titleMedium)
-            AssistChip(onClick = { vm.setViewMode(ViewMode.CARD) }, label = { Text("카드") }, enabled = viewMode != ViewMode.CARD)
-            AssistChip(onClick = { vm.setViewMode(ViewMode.LIST) }, label = { Text("리스트") }, enabled = viewMode != ViewMode.LIST)
+            Text(stringResource(id = com.linkeep.memo.R.string.label_view_mode), style = MaterialTheme.typography.titleMedium)
+            AssistChip(onClick = { vm.setViewMode(ViewMode.CARD) }, label = { Text(stringResource(id = com.linkeep.memo.R.string.view_card)) }, enabled = viewMode != ViewMode.CARD)
+            AssistChip(onClick = { vm.setViewMode(ViewMode.LIST) }, label = { Text(stringResource(id = com.linkeep.memo.R.string.view_list)) }, enabled = viewMode != ViewMode.LIST)
 
             Divider(modifier = Modifier.padding(vertical = 12.dp))
 
-            Text("AI 제공자", style = MaterialTheme.typography.titleMedium)
-            AssistChip(onClick = { vm.setAIProvider(AIProvider.LOCAL) }, label = { Text("로컬") }, enabled = provider != AIProvider.LOCAL)
-            AssistChip(onClick = { vm.setAIProvider(AIProvider.OPENAI) }, label = { Text("OpenAI") }, enabled = provider != AIProvider.OPENAI)
-            AssistChip(onClick = { vm.setAIProvider(AIProvider.GEMINI) }, label = { Text("Gemini") }, enabled = provider != AIProvider.GEMINI)
-            AssistChip(onClick = { vm.setAIProvider(AIProvider.CLAUDE) }, label = { Text("Claude") }, enabled = provider != AIProvider.CLAUDE)
+            Text(stringResource(id = com.linkeep.memo.R.string.label_ai_provider), style = MaterialTheme.typography.titleMedium)
+            AssistChip(onClick = { vm.setAIProvider(AIProvider.LOCAL) }, label = { Text(stringResource(id = com.linkeep.memo.R.string.ai_local)) }, enabled = provider != AIProvider.LOCAL)
+            AssistChip(onClick = { vm.setAIProvider(AIProvider.OPENAI) }, label = { Text(stringResource(id = com.linkeep.memo.R.string.ai_openai)) }, enabled = provider != AIProvider.OPENAI)
+            AssistChip(onClick = { vm.setAIProvider(AIProvider.GEMINI) }, label = { Text(stringResource(id = com.linkeep.memo.R.string.ai_gemini)) }, enabled = provider != AIProvider.GEMINI)
+            AssistChip(onClick = { vm.setAIProvider(AIProvider.CLAUDE) }, label = { Text(stringResource(id = com.linkeep.memo.R.string.ai_claude)) }, enabled = provider != AIProvider.CLAUDE)
 
             OutlinedTextField(
                 value = apiKey,
                 onValueChange = { vm.setAIApiKey(it) },
-                label = { Text("API 키") },
+                label = { Text(stringResource(id = com.linkeep.memo.R.string.label_api_key)) },
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
