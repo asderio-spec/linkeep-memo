@@ -4,14 +4,18 @@ import com.linkeep.memo.data.api.OpenAIService
 import com.linkeep.memo.data.api.OpenAIRequest
 import com.linkeep.memo.data.api.Message
 import com.linkeep.memo.BuildConfig
+import com.linkeep.memo.data.AIProvider
+import com.linkeep.memo.data.SettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class LLMService @Inject constructor(
-    private val openAIService: OpenAIService
+    private val openAIService: OpenAIService,
+    private val settingsRepository: SettingsRepository
 ) {
     suspend fun generateMemoContent(
         title: String? = null,
@@ -19,11 +23,13 @@ class LLMService @Inject constructor(
         link: String? = null,
         category: String? = null
     ): Triple<String, String, String> {
-        // OPENAI 키가 없거나 오류가 발생하는 경우를 대비해 폴백 제공
-        val apiKey = BuildConfig.OPENAI_API_KEY
-        if (apiKey.isBlank()) {
-            return generateFallback(title, content, link, category)
-        }
+        // 설정 기반 제공자/키 선택
+        val provider = settingsRepository.aiProviderFlow.first()
+        val settingsKey = settingsRepository.aiApiKeyFlow.first()
+        val envKey = BuildConfig.OPENAI_API_KEY
+        val apiKey = if (settingsKey.isNotBlank()) settingsKey else envKey
+
+        if (provider != AIProvider.OPENAI || apiKey.isBlank()) return generateFallback(title, content, link, category)
 
         return try {
             val prompt = buildString {
