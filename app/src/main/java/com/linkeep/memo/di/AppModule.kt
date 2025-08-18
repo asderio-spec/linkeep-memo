@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.linkeep.memo.data.api.OpenAIService
 import com.linkeep.memo.data.db.MemoDatabase
 import com.linkeep.memo.data.db.MemoDao
+import com.linkeep.memo.data.SettingsRepository
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
@@ -72,5 +73,11 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(OpenAIService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsRepository(@ApplicationContext context: Context): SettingsRepository {
+        return SettingsRepository(context)
     }
 } 

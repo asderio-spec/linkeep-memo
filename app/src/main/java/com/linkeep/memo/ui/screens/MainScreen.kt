@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.GridView
+import androidx.compose.material.icons.filled.ViewList
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -58,6 +60,13 @@ fun MainScreen(
                     actions = {
                         IconButton(onClick = { showSearchBar = true }) {
                             Icon(Icons.Default.Search, contentDescription = "Search")
+                        }
+                        var cardView by remember { mutableStateOf(true) }
+                        IconButton(onClick = { cardView = !cardView }) {
+                            Icon(
+                                if (cardView) Icons.Default.ViewList else Icons.Default.GridView,
+                                contentDescription = "Toggle View"
+                            )
                         }
                     }
                 )
