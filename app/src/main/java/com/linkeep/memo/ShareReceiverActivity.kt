@@ -1,6 +1,6 @@
 package com.linkeep.memo
 
-import android.app.Activity
+import androidx.activity.ComponentActivity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,12 +9,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.linkeep.memo.data.repository.MemoRepository
 import com.linkeep.memo.data.model.Memo
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
 
 @AndroidEntryPoint
-class ShareReceiverActivity : Activity() {
+class ShareReceiverActivity : ComponentActivity() {
 
     @Inject lateinit var memoRepository: MemoRepository
 
@@ -36,7 +36,7 @@ class ShareReceiverActivity : Activity() {
         val title = sharedText?.take(80) ?: "공유 항목"
         val category = "공유"
 
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             val memo = Memo(
                 title = title,
                 content = sharedText ?: "",
