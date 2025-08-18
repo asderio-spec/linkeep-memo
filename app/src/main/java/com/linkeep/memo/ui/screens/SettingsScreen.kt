@@ -50,6 +50,12 @@ fun SettingsScreen(vm: SettingsViewModel = hiltViewModel()) {
                 label = { Text(stringResource(id = com.linkeep.memo.R.string.label_api_key)) },
                 modifier = Modifier.padding(top = 8.dp)
             )
+
+            Divider(modifier = Modifier.padding(vertical = 12.dp))
+
+            Text(stringResource(id = com.linkeep.memo.R.string.label_language), style = MaterialTheme.typography.titleMedium)
+            AssistChip(onClick = { vm.setLanguage("ko") }, label = { Text(stringResource(id = com.linkeep.memo.R.string.lang_ko)) })
+            AssistChip(onClick = { vm.setLanguage("en") }, label = { Text(stringResource(id = com.linkeep.memo.R.string.lang_en)) })
         }
     }
 }

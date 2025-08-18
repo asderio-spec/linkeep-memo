@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Linkeep Memo</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_detail">Memo Detail</string>
+    <string name="action_save">Save</string>
+    <string name="action_back">Back</string>
+    <string name="label_theme">Theme</string>
+    <string name="label_view_mode">View mode</string>
+    <string name="label_ai_provider">AI Provider</string>
+    <string name="label_api_key">API Key</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="view_card">Card</string>
+    <string name="view_list">List</string>
+    <string name="ai_local">Local</string>
+    <string name="ai_openai">OpenAI</string>
+    <string name="ai_gemini">Gemini</string>
+    <string name="ai_claude">Claude</string>
+    <string name="label_language">Language</string>
+    <string name="lang_ko">Korean</string>
+    <string name="lang_en">English</string>
 </resources>
