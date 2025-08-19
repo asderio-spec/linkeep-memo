@@ -42,11 +42,9 @@ jobs:
           echo "$PWD/gradle-8.2.1/bin" >> $GITHUB_PATH
 
       - name: Grant execute permission for Gradle Wrapper
-        working-directory: LinkeepMemo
         run: chmod +x ./gradlew
 
       - name: Build Debug APK
-        working-directory: LinkeepMemo
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
@@ -56,6 +54,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linkeep-memo-debug-apk
-          path: LinkeepMemo/app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
